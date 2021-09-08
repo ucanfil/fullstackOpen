@@ -4,11 +4,23 @@ const Header = (props) => (
   <h1>{props.course}</h1>
 )
 
-const Content = (props) => (
+const Part = (props) => (
   <p>
     {props.part} {props.exercises}
   </p>
 )
+
+const Content = (props) => {
+  const {parts, exercises} = props;
+
+  return (
+    <>
+      {parts.map((part, i) => (
+        <Part key={part} part={part} exercises={exercises[i]} />
+      ))}
+    </>
+  )
+}
 
 const Footer = (props) => (
   <p>Number of exercises {props.exercises.reduce((a, b) => a + b)}</p>
@@ -26,9 +38,7 @@ const App = () => {
   return (
     <div>
       <Header course={course} />
-      <Content part={part1} exercises={exercises1} />
-      <Content part={part2} exercises={exercises2} />
-      <Content part={part3} exercises={exercises3} />
+      <Content parts={[part1, part2, part3]} exercises={[exercises1, exercises2, exercises3]} />
       <Footer exercises={[exercises1, exercises2, exercises3]} />
     </div>
   )
