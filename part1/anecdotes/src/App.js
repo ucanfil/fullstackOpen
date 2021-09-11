@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 
 const getRandomNumber = (min, max) => Math.floor(min + Math.random() * (max - min));
 
+const Header = ({ header }) => <h1>{header}</h1>;
+
+const getBiggestVoteIndex = votes => votes.indexOf(Math.max(...votes));
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often',
@@ -18,6 +22,7 @@ const App = () => {
 
   return (
     <div>
+      <Header header={"Anecdote of the day"} />
       <p>{anecdotes[selected]}</p>
       <p>has {votes[selected]} vote{votes[selected] > 1 ? "s" : ""}</p>
       <button onClick={() => {
@@ -26,6 +31,9 @@ const App = () => {
         setVotes(copy);
       }}>Vote</button>
       <button onClick={() => setSelected(getRandomNumber(0, anecdotes.length))}>Next quote</button>
+      <Header header={"Anecdote with most votes"} />
+      <p>{anecdotes[getBiggestVoteIndex(votes)]}</p>
+      <p>has {votes[getBiggestVoteIndex(votes)]} vote{votes[getBiggestVoteIndex(votes)] > 1 ? "s" : ""}</p>
     </div>
   )
 }
