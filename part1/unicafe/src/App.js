@@ -11,6 +11,7 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const all = good + neutral + bad;
 
   return (
     <div>
@@ -22,6 +23,9 @@ const App = () => {
       <Display info={`good ${good}`} />
       <Display info={`neutral ${neutral}`} />
       <Display info={`bad ${bad}`} />
+      <Display info={`all ${all}`} />
+      <Display info={`average ${(good - bad) / all}`} />
+      <Display info={`positive ${good / (all) * 100} %`} />
     </div>
   )
 }
