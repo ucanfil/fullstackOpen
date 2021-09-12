@@ -20,6 +20,14 @@ const App = () => {
       // date: new Date().toISOString(),
       // id: persons.length
     }
+
+    setNewName('');
+
+    if (persons.find(person => person.name.toLowerCase() === newPerson.name.toLowerCase())) {
+      alert(`${newPerson.name} is already added to the phonebook`);
+      return;
+    }
+
     setPersons(persons.concat(newPerson));
   };
 
