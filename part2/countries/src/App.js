@@ -27,7 +27,11 @@ function App() {
         <p>Too many matches, specify another filter</p> :
         (
           filtered.length > 1 ?
-          filtered.map(country => <div key={country.name}>{country.name}</div>) :
+          filtered.map(country =>
+            (<div key={country.name}>{country.name}
+              <a href={`https://restcountries.eu/rest/v2/name/${country.name}?fullText=true`} target="_blank" rel="noreferrer"> show</a>
+            </div>)
+          ) :
           filtered.map(country => (
             <div key={country.name}>
               <h1>{country.name}</h1>
