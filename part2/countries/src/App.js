@@ -1,9 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const Country = ({ country }) => (
+  <div>
+    <h1>{country.name}</h1>
+    <p>capital {country.capital}</p>
+    <p>population {country.population}</p>
+    <h2>languages</h2>
+    {country.languages.map(language => <p key={language.name}>{language.name}</p>)}
+    <img src={country.flag} alt="country_flag" width="150"></img>
+  </div>
+)
+
 function App() {
   const [countries, setCountries] = useState([]);
   const [filtered, setFiltered] = useState([]);
+  const [isShown, setIsShown] = useState(false);
+  const [shownCountry, setShownCountry] = useState({});
 
   useEffect(() => {
     axios
@@ -29,21 +42,20 @@ function App() {
           filtered.length > 1 ?
           filtered.map(country =>
             (<div key={country.name}>{country.name}
-              <a href={`https://restcountries.eu/rest/v2/name/${country.name}?fullText=true`} target="_blank" rel="noreferrer"> show</a>
+              <button onClick={() => {
+                setIsShown(!isShown);
+                setShownCountry(country);
+              }}>show</button>
             </div>)
           ) :
           filtered.map(country => (
             <div key={country.name}>
-              <h1>{country.name}</h1>
-              <p>capital {country.capital}</p>
-              <p>population {country.population}</p>
-              <h2>languages</h2>
-              {country.languages.map(language => <p key={language.name}>{language.name}</p>)}
-              <img src={country.flag} alt="country_flag" width="150"></img>
+              <Country country={country} />
             </div>
           ))
         )
       }
+      {isShown && <Country country={shownCountry} /> }
       <div>
       </div>
     </div>
