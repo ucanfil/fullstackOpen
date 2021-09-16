@@ -30,7 +30,7 @@ const Country = ({ country }) => {
         <>
           <h2>Weather in {country.capital}</h2>
           <p><strong>temperature:</strong> {weather.main.temp} Celcius</p>
-          <img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}></img>
+          <img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} alt="weather_icon"></img>
           <p><strong>wind:</strong> {weather.wind.speed} mph degree {weather.wind.deg}</p>
         </>)
       }
