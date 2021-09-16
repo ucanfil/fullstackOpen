@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const PersonsForm = ({
     persons,
     setPersons,
@@ -17,20 +19,28 @@ const PersonsForm = ({
     const handleAddNewName = (e) => {
         e.preventDefault();
         const newPerson = {
-        name: newName,
-        number: newPhone,
-        id: persons.length
+            name: newName,
+            number: newPhone
         }
 
         setNewName('');
         setNewPhone('');
 
         if (persons.find(person => person.name.toLowerCase() === newPerson.name.toLowerCase())) {
-        alert(`${newPerson.name} is already added to the phonebook`);
-        return;
+            alert(`${newPerson.name} is already added to the phonebook`);
+            return;
         }
 
-        setPersons(persons.concat(newPerson));
+        axios
+            .post('http://localhost:3001/persons', newPerson)
+            .then(response => response.data)
+            .then(newPerson => {
+                console.log(newPerson);
+                setPersons(persons.concat(newPerson));
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     return (
