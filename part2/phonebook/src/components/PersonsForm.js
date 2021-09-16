@@ -1,4 +1,4 @@
-import axios from "axios";
+import personsService from "../services/persons";
 
 const PersonsForm = ({
     persons,
@@ -31,12 +31,9 @@ const PersonsForm = ({
             return;
         }
 
-        axios
-            .post('http://localhost:3001/persons', newPerson)
-            .then(response => response.data)
-            .then(newPerson => {
-                console.log(newPerson);
-                setPersons(persons.concat(newPerson));
+        personsService.addNew(newPerson)
+            .then(data => {
+                setPersons(persons.concat(data));
             })
             .catch((err) => {
                 console.log(err);

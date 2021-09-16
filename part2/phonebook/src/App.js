@@ -2,26 +2,18 @@ import React, { useEffect, useState } from 'react';
 import Person from './components/Person';
 import PersonsForm from './components/PersonsForm';
 import Search from './components/Search';
-import axios from 'axios';
+import personsService from './services/persons';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
-  const [notes, setNotes] = useState([]);
   const [filterBy, setFilterBy] = useState('');
   const [newName, setNewName] = useState('');
   const [newPhone, setNewPhone] = useState('');
 
   useEffect(() => {
-    console.log("effect");
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log("Promise fullfilled!");
-        setPersons(response.data);
-      });
+    personsService.getPersons()
+      .then(persons => setPersons(persons));
   }, []);
-
-  console.log(`render ${persons.length} persons`);
 
   const handleFilterBy = (e) => setFilterBy(e.target.value.toLowerCase());
 
