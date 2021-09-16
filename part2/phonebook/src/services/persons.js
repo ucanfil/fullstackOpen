@@ -20,8 +20,18 @@ const deletePerson = async (id) => {
     return request.then(response => response);
 }
 
+const editExisting = async (newPerson) => {
+    const ifExists = axios.get(`${baseUrl}/${newPerson.id}`).then(response => response.data.id);
+
+    if (ifExists) {
+        const request = axios.put(`${baseUrl}/${newPerson.id}`, newPerson);
+        return request.then(response => response.data);
+    }
+}
+
 export default {
     getPersons,
     addNew,
-    deletePerson
+    deletePerson,
+    editExisting
 };

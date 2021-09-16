@@ -26,8 +26,27 @@ const PersonsForm = ({
         setNewName('');
         setNewPhone('');
 
-        if (persons.find(person => person.name.toLowerCase() === newPerson.name.toLowerCase())) {
-            alert(`${newPerson.name} is already added to the phonebook`);
+        const found = persons.find(person => person.name.toLowerCase() === newPerson.name.toLowerCase());
+
+
+        if (found) {
+            const copy = {...newPerson, id: found.id};
+
+            if (window.confirm(`Would you like to edit phone number for ${copy.name}?`)) {
+                personsService
+                    .editExisting(copy)
+                    .then(data => {
+                        setPersons(persons.map(person => {
+                            if (person.id === data.id) {
+                                person.number = data.number;
+                            }
+
+                            return person;
+                        }))
+                    })
+                    .catch(err => console.log(err));
+            }
+
             return;
         }
 
