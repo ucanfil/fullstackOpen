@@ -16,6 +16,7 @@ const App = () => {
   }, []);
 
   const handleFilterBy = (e) => setFilterBy(e.target.value.toLowerCase());
+  const handleChange = (id) => setPersons(persons.filter(person => person.id !== id));
 
   return (
     <div>
@@ -32,7 +33,7 @@ const App = () => {
       <h2>Numbers</h2>
       {persons
         .filter(person => person.name.toLowerCase().includes(filterBy))
-        .map(person => <Person key={person.name} name={person.name} number={person.number} />)
+        .map(person => <Person key={person.name} person={person} handleChange={handleChange} />)
       }
     </div>
   )
