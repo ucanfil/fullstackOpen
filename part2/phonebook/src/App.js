@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Notification from './components/Notification';
 import Person from './components/Person';
 import PersonsForm from './components/PersonsForm';
 import Search from './components/Search';
@@ -9,6 +10,8 @@ const App = () => {
   const [filterBy, setFilterBy] = useState('');
   const [newName, setNewName] = useState('');
   const [newPhone, setNewPhone] = useState('');
+  const [notification, setNotification] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     personsService.getPersons()
@@ -21,6 +24,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notification} error={error} />
       <Search filterBy={filterBy} handleFilterBy={handleFilterBy} />
       <PersonsForm
         persons={persons}
@@ -29,11 +33,21 @@ const App = () => {
         newPhone={newPhone}
         setNewName={setNewName}
         setNewPhone={setNewPhone}
+        setNotification={setNotification}
+        setError={setError}
       />
       <h2>Numbers</h2>
       {persons
         .filter(person => person.name.toLowerCase().includes(filterBy))
-        .map(person => <Person key={person.name} person={person} handleChange={handleChange} />)
+        .map(person => (
+          <Person
+            key={person.name}
+            person={person}
+            handleChange={handleChange}
+            setNotification={setNotification}
+            setError={setError}
+          />
+        ))
       }
     </div>
   )

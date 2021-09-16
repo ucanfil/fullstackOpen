@@ -6,7 +6,9 @@ const PersonsForm = ({
     newName,
     newPhone,
     setNewName,
-    setNewPhone
+    setNewPhone,
+    setNotification,
+    setError
 }) => {
     const handleNameInput = (e) => {
         setNewName(e.target.value);
@@ -35,27 +37,57 @@ const PersonsForm = ({
             if (window.confirm(`Would you like to edit phone number for ${copy.name}?`)) {
                 personsService
                     .editExisting(copy)
-                    .then(data => {
+                    .then(response => {
                         setPersons(persons.map(person => {
-                            if (person.id === data.id) {
-                                person.number = data.number;
+                            if (person.id === response.data.id) {
+                                person.number = response.data.number;
                             }
 
                             return person;
-                        }))
+                        }));
+
+                        if (response.status === 200) {
+                            setNotification(`${copy.name} has been successfully edited`);
+                            setError(false);
+                        }
+
+                        setTimeout(() => {
+                            setNotification(null);
+                        }, 5000);
                     })
-                    .catch(err => console.log(err));
+                    .catch(err => {
+                        setNotification(`${err} occured`);
+                        setError(true);
+
+                        setTimeout(() => {
+                            setNotification(null);
+                        }, 5000);
+                    });
             }
 
             return;
         }
 
         personsService.addNew(newPerson)
-            .then(data => {
-                setPersons(persons.concat(data));
+            .then(response => {
+                if (response.status === 201) {
+                    setNotification(`${newPerson.name} has been successfully added`);
+                    setError(false);
+                }
+
+                setTimeout(() => {
+                    setNotification(null);
+                }, 5000);
+
+                setPersons(persons.concat(response.data));
             })
             .catch((err) => {
-                console.log(err);
+                setNotification(`${err} occured`);
+                setError(true);
+
+                setTimeout(() => {
+                    setNotification(null);
+                }, 5000);
             });
     };
 

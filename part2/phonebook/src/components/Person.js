@@ -1,6 +1,6 @@
 import personsService from '../services/persons';
 
-const Person = ({ person, handleChange }) => {
+const Person = ({ person, handleChange, setNotification, setError }) => {
     const {name, number, id} = person;
 
     const handleDelete = (id) => {
@@ -10,9 +10,22 @@ const Person = ({ person, handleChange }) => {
                 .then(response => {
                     if (response.status === 200) {
                         handleChange(id);
+                        setNotification(`${person.name} has been successfully deleted`);
+                        setError(false);
                     }
+
+                    setTimeout(() => {
+                        setNotification(null);
+                    }, 5000);
                 })
-                .catch(err => console.log(err))
+                .catch(err => {
+                    setNotification(`${err} occured`);
+                    setError(true);
+
+                    setTimeout(() => {
+                        setNotification(null);
+                    }, 5000);
+                })
         }
     };
 

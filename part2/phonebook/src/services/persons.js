@@ -11,7 +11,7 @@ const getPersons = async () => {
 const addNew = async (newPerson) => {
     const request = axios.post(baseUrl, newPerson)
 
-    return request.then(response => response.data);
+    return request.then(response => response);
 }
 
 const deletePerson = async (id) => {
@@ -25,7 +25,7 @@ const editExisting = async (newPerson) => {
 
     if (ifExists) {
         const request = axios.put(`${baseUrl}/${newPerson.id}`, newPerson);
-        return request.then(response => response.data);
+        return request.then(response => response);
     }
 }
 
